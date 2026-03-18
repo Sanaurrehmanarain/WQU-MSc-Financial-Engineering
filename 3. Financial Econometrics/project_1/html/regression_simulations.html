@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Analysis Simulations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        .simulation-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+        }
+        .plot-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        .results {
+            background: rgba(46, 204, 113, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #2ecc71;
+        }
+        .results h4 {
+            color: #27ae60;
+            margin-top: 0;
+        }
+        .coefficient {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="range"] {
+            width: 200px;
+            margin: 0 10px;
+        }
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Regression Analysis Simulations</h1>
+        
+        <div class="simulation-section">
+            <h2>Problem 1: Omitted Variable Bias Simulation</h2>
+            <p><strong>True Model:</strong> Y = α + βX + γZ + ε</p>
+            <p><strong>Estimated Model:</strong> Y = α + βX + μ (omitting Z)</p>
+            
+            <div class="controls">
+                <label>Sample Size: <input type="range" id="sampleSize1" min="50" max="1000" value="200" step="50"></label>
+                <span id="sampleValue1">200</span><br><br>
+                <label>Correlation(X,Z): <input type="range" id="correlation1" min="0" max="0.9" value="0.5" step="0.1"></label>
+                <span id="corrValue1">0.5</span><br><br>
+                <button onclick="runSimulation1()">🔄 Run Simulation</button>
+            </div>
+            
+            <div class="plot-container">
+                <div id="plot1"></div>
+            </div>
+            
+            <div id="results1" class="results">
+                <h4>Results will appear here after running simulation</h4>
+            </div>
+        </div>
+
+        <div class="simulation-section">
+            <h2>Problem 2: Outlier Impact Simulation</h2>
+            <p><strong>Model:</strong> Y = α + βX + ε</p>
+            <p><strong>Comparison:</strong> Clean data vs. Data with outliers</p>
+            
+            <div class="controls">
+                <label>Sample Size: <input type="range" id="sampleSize2" min="50" max="500" value="100" step="25"></label>
+                <span id="sampleValue2">100</span><br><br>
+                <label>Number of Outliers: <input type="range" id="outliers" min="1" max="10" value="3" step="1"></label>
+                <span id="outliersValue">3</span><br><br>
+                <label>Outlier Magnitude: <input type="range" id="outlierMag" min="5" max="20" value="15" step="2.5"></label>
+                <span id="outlierMagValue">15</span><br><br>
+                <button onclick="runSimulation2()">🔄 Run Simulation</button>
+            </div>
+            
+            <div class="plot-container">
+                <div id="plot2"></div>
+            </div>
+            
+            <div id="results2" class="results">
+                <h4>Results will appear here after running simulation</h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility functions
+        function generateNormal(mean = 0, std = 1, size = 100) {
+            const values = [];
+            for (let i = 0; i < size; i++) {
+                const u1 = Math.random();
+                const u2 = Math.random();
+                const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+                values.push(mean + std * z0);
+            }
+            return values;
+        }
+
+        function linearRegression(x, y) {
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((acc, xi, i) => acc + xi * y[i], 0);
+            const sumXX = x.reduce((acc, xi) => acc + xi * xi, 0);
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            
+            return { intercept, slope };
+        }
+
+        function multipleRegression(X, y) {
+            // Simple 2-variable regression: Y = a + b*X1 + c*X2
+            const n = X[0].length;
+            const x1 = X[0];
+            const x2 = X[1];
+            
+            // Create design matrix [1, X1, X2]
+            const A = [];
+            for (let i = 0; i < n; i++) {
+                A.push([1, x1[i], x2[i]]);
+            }
+            
+            // Normal equation: (A'A)^(-1) A'y
+            const AtA = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+            const Aty = [0, 0, 0];
+            
+            // Calculate A'A and A'y
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < 3; j++) {
+                    Aty[j] += A[i][j] * y[i];
+                    for (let k = 0; k < 3; k++) {
+                        AtA[j][k] += A[i][j] * A[i][k];
+                    }
+                }
+            }
+            
+            // Solve 3x3 system (simplified for this case)
+            const det = AtA[0][0] * (AtA[1][1] * AtA[2][2] - AtA[1][2] * AtA[2][1]) -
+                       AtA[0][1] * (AtA[1][0] * AtA[2][2] - AtA[1][2] * AtA[2][0]) +
+                       AtA[0][2] * (AtA[1][0] * AtA[2][1] - AtA[1][1] * AtA[2][0]);
+            
+            const invAtA = [
+                [(AtA[1][1] * AtA[2][2] - AtA[1][2] * AtA[2][1]) / det,
+                 -(AtA[0][1] * AtA[2][2] - AtA[0][2] * AtA[2][1]) / det,
+                 (AtA[0][1] * AtA[1][2] - AtA[0][2] * AtA[1][1]) / det],
+                [-(AtA[1][0] * AtA[2][2] - AtA[1][2] * AtA[2][0]) / det,
+                 (AtA[0][0] * AtA[2][2] - AtA[0][2] * AtA[2][0]) / det,
+                 -(AtA[0][0] * AtA[1][2] - AtA[0][2] * AtA[1][0]) / det],
+                [(AtA[1][0] * AtA[2][1] - AtA[1][1] * AtA[2][0]) / det,
+                 -(AtA[0][0] * AtA[2][1] - AtA[0][1] * AtA[2][0]) / det,
+                 (AtA[0][0] * AtA[1][1] - AtA[0][1] * AtA[1][0]) / det]
+            ];
+            
+            const coeffs = [0, 0, 0];
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    coeffs[i] += invAtA[i][j] * Aty[j];
+                }
+            }
+            
+            return { intercept: coeffs[0], slope_x: coeffs[1], slope_z: coeffs[2] };
+        }
+
+        // Problem 1: Omitted Variable Bias
+        function runSimulation1() {
+            const n = parseInt(document.getElementById('sampleSize1').value);
+            const corr = parseFloat(document.getElementById('correlation1').value);
+            
+            // True parameters
+            const alpha = 2.0;
+            const beta = 3.0;
+            const gamma = 1.5;
+            
+            // Generate data
+            const X = generateNormal(0, 1, n);
+            const u = generateNormal(0, 1, n);
+            const Z = X.map((x, i) => corr * x + Math.sqrt(1 - corr * corr) * u[i]);
+            const epsilon = generateNormal(0, 1, n);
+            const Y = X.map((x, i) => alpha + beta * x + gamma * Z[i] + epsilon[i]);
+            
+            // Estimate full model
+            const fullModel = multipleRegression([X, Z], Y);
+            
+            // Estimate partial model (omitting Z)
+            const partialModel = linearRegression(X, Y);
+            
+            // Create visualization
+            const trace1 = {
+                x: X,
+                y: Y,
+                mode: 'markers',
+                type: 'scatter',
+                name: 'Data Points',
+                marker: { color: 'rgba(52, 152, 219, 0.6)', size: 6 }
+            };
+            
+            const xSort = [...X].sort((a, b) => a - b);
+            const yFullPred = xSort.map(x => fullModel.intercept + fullModel.slope_x * x + fullModel.slope_z * corr * x);
+            const yPartialPred = xSort.map(x => partialModel.intercept + partialModel.slope * x);
+            
+            const trace2 = {
+                x: xSort,
+                y: yFullPred,
+                mode: 'lines',
+                type: 'scatter',
+                name: 'Full Model (with Z)',
+                line: { color: 'green', width: 3 }
+            };
+            
+            const trace3 = {
+                x: xSort,
+                y: yPartialPred,
+                mode: 'lines',
+                type: 'scatter',
+                name: 'Partial Model (omitting Z)',
+                line: { color: 'red', width: 3, dash: 'dash' }
+            };
+            
+            const layout = {
+                title: 'Omitted Variable Bias Demonstration',
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                showlegend: true,
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
+            };
+            
+            Plotly.newPlot('plot1', [trace1, trace2, trace3], layout);
+            
+            // Display results
+            document.getElementById('results1').innerHTML = `
+                <h4>📈 Simulation Results</h4>
+                <p><strong>True Parameters:</strong> α = ${alpha}, β = ${beta}, γ = ${gamma}</p>
+                <p><strong>Full Model Estimates:</strong></p>
+                <ul>
+                    <li>α̂ = <span class="coefficient">${fullModel.intercept.toFixed(3)}</span></li>
+                    <li>β̂ = <span class="coefficient">${fullModel.slope_x.toFixed(3)}</span></li>
+                    <li>γ̂ = <span class="coefficient">${fullModel.slope_z.toFixed(3)}</span></li>
+                </ul>
+                <p><strong>Partial Model Estimates (omitting Z):</strong></p>
+                <ul>
+                    <li>α̂ = <span class="coefficient">${partialModel.intercept.toFixed(3)}</span></li>
+                    <li>β̂ = <span class="coefficient">${partialModel.slope.toFixed(3)}</span></li>
+                </ul>
+                <p><strong>🔍 Bias in β̂:</strong> ${(partialModel.slope - fullModel.slope_x).toFixed(3)}</p>
+                <p><strong>💡 Interpretation:</strong> ${partialModel.slope > fullModel.slope_x ? 'Positive' : 'Negative'} omitted variable bias detected!</p>
+            `;
+        }
+
+        // Problem 2: Outlier Impact
+        function runSimulation2() {
+            const n = parseInt(document.getElementById('sampleSize2').value);
+            const nOutliers = parseInt(document.getElementById('outliers').value);
+            const outlierMag = parseFloat(document.getElementById('outlierMag').value);
+            
+            // True parameters
+            const alpha = 2.0;
+            const beta = 3.0;
+            
+            // Generate clean data
+            const X = generateNormal(0, 1, n);
+            const epsilon = generateNormal(0, 1, n);
+            const Y_clean = X.map((x, i) => alpha + beta * x + epsilon[i]);
+            
+            // Add outliers
+            const Y_outliers = [...Y_clean];
+            for (let i = 0; i < nOutliers; i++) {
+                const outlierIndex = Math.floor(Math.random() * n);
+                Y_outliers[outlierIndex] += outlierMag;
+            }
+            
+            // Estimate models
+            const cleanModel = linearRegression(X, Y_clean);
+            const outlierModel = linearRegression(X, Y_outliers);
+            
+            // Create visualization
+            const trace1 = {
+                x: X,
+                y: Y_clean,
+                mode: 'markers',
+                type: 'scatter',
+                name: 'Clean Data',
+                marker: { color: 'rgba(46, 204, 113, 0.7)', size: 6 }
+            };
+            
+            const outlierIndices = [];
+            for (let i = 0; i < n; i++) {
+                if (Math.abs(Y_outliers[i] - Y_clean[i]) > 1) {
+                    outlierIndices.push(i);
+                }
+            }
+            
+            const trace2 = {
+                x: outlierIndices.map(i => X[i]),
+                y: outlierIndices.map(i => Y_outliers[i]),
+                mode: 'markers',
+                type: 'scatter',
+                name: 'Outliers',
+                marker: { color: 'red', size: 10, symbol: 'x' }
+            };
+            
+            const xSort = [...X].sort((a, b) => a - b);
+            const yCleanPred = xSort.map(x => cleanModel.intercept + cleanModel.slope * x);
+            const yOutlierPred = xSort.map(x => outlierModel.intercept + outlierModel.slope * x);
+            
+            const trace3 = {
+                x: xSort,
+                y: yCleanPred,
+                mode: 'lines',
+                type: 'scatter',
+                name: 'Clean Data Regression',
+                line: { color: 'green', width: 3 }
+            };
+            
+            const trace4 = {
+                x: xSort,
+                y: yOutlierPred,
+                mode: 'lines',
+                type: 'scatter',
+                name: 'With Outliers Regression',
+                line: { color: 'red', width: 3, dash: 'dash' }
+            };
+            
+            const layout = {
+                title: 'Impact of Outliers on Regression',
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                showlegend: true,
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
+            };
+            
+            Plotly.newPlot('plot2', [trace1, trace2, trace3, trace4], layout);
+            
+            // Display results
+            const interceptChange = Math.abs(outlierModel.intercept - cleanModel.intercept);
+            const slopeChange = Math.abs(outlierModel.slope - cleanModel.slope);
+            
+            document.getElementById('results2').innerHTML = `
+                <h4>📊 Simulation Results</h4>
+                <p><strong>True Parameters:</strong> α = ${alpha}, β = ${beta}</p>
+                <p><strong>Clean Data Estimates:</strong></p>
+                <ul>
+                    <li>α̂ = <span class="coefficient">${cleanModel.intercept.toFixed(3)}</span></li>
+                    <li>β̂ = <span class="coefficient">${cleanModel.slope.toFixed(3)}</span></li>
+                </ul>
+                <p><strong>With Outliers Estimates:</strong></p>
+                <ul>
+                    <li>α̂ = <span class="coefficient">${outlierModel.intercept.toFixed(3)}</span></li>
+                    <li>β̂ = <span class="coefficient">${outlierModel.slope.toFixed(3)}</span></li>
+                </ul>
+                <p><strong>🎯 Impact:</strong></p>
+                <ul>
+                    <li>Intercept change: <span class="coefficient">${interceptChange.toFixed(3)}</span></li>
+                    <li>Slope change: <span class="coefficient">${slopeChange.toFixed(3)}</span></li>
+                </ul>
+                <p><strong>💡 Interpretation:</strong> Even ${nOutliers} outlier(s) significantly affected the regression estimates!</p>
+            `;
+        }
+
+        // Update slider values
+        document.getElementById('sampleSize1').addEventListener('input', function() {
+            document.getElementById('sampleValue1').textContent = this.value;
+        });
+        
+        document.getElementById('correlation1').addEventListener('input', function() {
+            document.getElementById('corrValue1').textContent = this.value;
+        });
+        
+        document.getElementById('sampleSize2').addEventListener('input', function() {
+            document.getElementById('sampleValue2').textContent = this.value;
+        });
+        
+        document.getElementById('outliers').addEventListener('input', function() {
+            document.getElementById('outliersValue').textContent = this.value;
+        });
+        
+        document.getElementById('outlierMag').addEventListener('input', function() {
+            document.getElementById('outlierMagValue').textContent = this.value;
+        });
+
+        // Run initial simulations
+        runSimulation1();
+        runSimulation2();
+    </script>
+</body>
+</html>
