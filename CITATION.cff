@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Project Title"
+title: "WQU-MSc-Financial-Engineering"
 message: "If you use this project in your research, publication, or educational work, please cite it using the metadata below."
 type: software
 
@@ -8,12 +8,12 @@ authors:
     given-names: "Arain"
     affiliation: "Data Scientist"
 
-repository-code: "https://github.com/sanaurrehmanarain/project-name"
+repository-code: "https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering"
 
 license: "All Rights Reserved"
 
 abstract: >
-  A data science portfolio project created for educational purposes,
+  A Financial Engineering course work created for educational purposes,
   professional portfolio presentation, and demonstrating data science
   and machine learning skills.
 
@@ -31,6 +31,6 @@ preferred-citation:
   authors:
     - family-names: "Sana"
       given-names: "Arain"
-  title: "Project Title"
+  title: "WQU-MSc-Financial-Engineering"
   year: 2026
-  url: "https://github.com/sanaurrehmanarain/project-name"
+  url: "https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering"
