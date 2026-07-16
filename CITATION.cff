@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "Project Title"
+message: "If you use this project in your research, publication, or educational work, please cite it using the metadata below."
+type: software
+
+authors:
+  - family-names: "Sana"
+    given-names: "Arain"
+    affiliation: "Data Scientist"
+
+repository-code: "https://github.com/sanaurrehmanarain/project-name"
+
+license: "All Rights Reserved"
+
+abstract: >
+  A data science portfolio project created for educational purposes,
+  professional portfolio presentation, and demonstrating data science
+  and machine learning skills.
+
+keywords:
+  - data science
+  - machine learning
+  - python
+  - data analysis
+  - portfolio
+
+date-released: "2026-07-16"
+
+preferred-citation:
+  type: software
+  authors:
+    - family-names: "Sana"
+      given-names: "Arain"
+  title: "Project Title"
+  year: 2026
+  url: "https://github.com/sanaurrehmanarain/project-name"
