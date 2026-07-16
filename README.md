@@ -39,3 +39,26 @@ The written content and code in this repository are licensed under the **Creativ
 * **No Derivatives:** You may not remix, transform, or build upon the material for distribution.
 
 ⚠️ **Academic Integrity Warning:** This repository is published strictly as a professional portfolio. Current students at WorldQuant University or any other institution must strictly adhere to their institution's Academic Integrity policies. **Do not copy this work and submit it as your own.** Plagiarism is a serious violation and can result in disciplinary action.
+
+## Citation
+
+If you use this project in academic research, publications, educational
+materials, or derivative works, please cite it and provide appropriate
+credit to the original author.
+
+**Author:** Sana  
+**Profession:** Data Scientist 
+**GitHub:** https://github.com/sanaurrehmanarain
+
+If permission is granted to copy, redistribute, or create derivative works, please retain the original copyright notice and attribution.
+
+---
+
+### Copyright Notice
+
+© 2026 Sana. All rights reserved.
+
+This project was created by Sana for educational and portfolio purposes. 
+It is shared for learning and reference only. Copying, redistributing, 
+or presenting this work as your own is not permitted without explicit 
+permission and appropriate credit.
