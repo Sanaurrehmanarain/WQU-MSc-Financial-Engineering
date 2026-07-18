@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "WQU-MSc-Financial-Engineering"
+title: "Financial-Engineering"
 message: "If you use this project in your research, publication, or educational work, please cite it using the metadata below."
 type: software
 
@@ -31,6 +31,6 @@ preferred-citation:
   authors:
     - family-names: "Sana"
       given-names: "Arain"
-  title: "WQU-MSc-Financial-Engineering"
+  title: "Financial-Engineering"
   year: 2026
   url: "https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering"
