@@ -40,25 +40,30 @@ The written content and code in this repository are licensed under the **Creativ
 
 ⚠️ **Academic Integrity Warning:** This repository is published strictly as a professional portfolio. Current students at WorldQuant University or any other institution must strictly adhere to their institution's Academic Integrity policies. **Do not copy this work and submit it as your own.** Plagiarism is a serious violation and can result in disciplinary action.
 
-## Citation
+### Citation
+If permission is granted to use this project in academic research,
+publications, educational materials, or derivative works, please retain
+the original copyright notice and provide appropriate credit.
 
-If you use this project in academic research, publications, educational
-materials, or derivative works, please cite it and provide appropriate
-credit to the original author.
+This repository includes a `CITATION.cff` file, so GitHub provides a
+**"Cite this repository"** button in the repository sidebar, which you
+can use to obtain citations in BibTeX, APA, and other supported formats.
 
-**Author:** Sana  
+**Suggested citation:**
+Sana Ur Rehman Arain. (2026). Financial-Engineering (Version 1.0) [Software].
+https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering
+
+**Author:** Sana Ur Rehman Arain
+
 **Profession:** Data Scientist 
+
 **GitHub:** https://github.com/sanaurrehmanarain
-
-If permission is granted to copy, redistribute, or create derivative works, please retain the original copyright notice and attribution.
-
----
 
 ### Copyright Notice
 
-© 2026 Sana. All rights reserved.
+© 2026 Sana Ur Rehman Arain. All rights reserved.
 
-This project was created by Sana for educational and portfolio purposes. 
+This project was created by Sana Ur Rehman Arain for educational and portfolio purposes. 
 It is shared for learning and reference only. Copying, redistributing, 
 or presenting this work as your own is not permitted without explicit 
 permission and appropriate credit.
