@@ -50,7 +50,8 @@ This repository includes a `CITATION.cff` file, so GitHub provides a
 can use to obtain citations in BibTeX, APA, and other supported formats.
 
 **Suggested citation:**
-Sana Ur Rehman Arain. (2026). Financial-Engineering (Version 1.0) [Software].
+
+Arain, S. U. R. (2026). Financial-Engineering (Version 1.0) [Software].
 https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering
 
 **Author:** Sana Ur Rehman Arain
