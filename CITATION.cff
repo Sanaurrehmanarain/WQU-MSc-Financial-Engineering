@@ -4,8 +4,8 @@ message: "If you use this project in your research, publication, or educational 
 type: software
 
 authors:
-  - family-names: "Sana"
-    given-names: "Arain"
+  - family-names: "Arain"
+    given-names: "Sana Ur Rehman"
     affiliation: "Data Scientist"
 
 repository-code: "https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering"
@@ -29,8 +29,8 @@ date-released: "2026-07-16"
 preferred-citation:
   type: software
   authors:
-    - family-names: "Sana"
-      given-names: "Arain"
+    - family-names: "Arain"
+      given-names: "Sana Ur Rehman"
   title: "Financial-Engineering"
   year: 2026
   url: "https://github.com/sanaurrehmanarain/WQU-MSc-Financial-Engineering"
